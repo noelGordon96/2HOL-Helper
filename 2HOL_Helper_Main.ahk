@@ -15,10 +15,18 @@
 
 ; IMPROVEMENT maybe try to solve full-screen limitation
 
+; IMPROVEMENT migrate settings window labels to separate editor program
+
 ; FEATURE small ding countdown at very end of timer
+
+; FEATURE hotkey (maybe V) to toggle between 2HOL and TwoTech)
 
 ; FEATURE enable multiple timers to go at once
 ; FEATURE settings.ini customization multiple timer vertical offset
+
+; FEATURE Settings window to edit without editing files
+
+; FEATURE Allow dragging timer around while in settings
 
 ; BUG FIX make input box cancel button functional
 ; BUG FIX typing in the main menu spawn seed field can activate hotkeys
@@ -148,7 +156,7 @@ if not(chatActive){
 	InputBox, timerMins, 2HOL Timer, Timer Minutes,, 200, 120, %input_x%, %input_y%,, %input_timeout%, %input_default%
 
 
-	; create gui to display timer
+	; create gui window to display timer
 	;timer_back_color := "00FF00"  ; Can be any RGB color (it will be made transparent below).
 	Gui +LastFound +AlwaysOnTop -Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
 	Gui, Color, %timer_back_color%
