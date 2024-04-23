@@ -73,6 +73,7 @@ Menu, Tray, Add, Exit, QuitNow
 ;###########################################################
 
 DEBUG := true	; USED FOR TESTING WHEN DEVELOPING
+configFile := "config.ini"
 settingsFile := "settings.ini"
 helpFile := "help.txt"
 
@@ -83,6 +84,15 @@ timerActive := false
 ; ##########################################################
 ;	LOAD DATA FROM LOCAL STORAGE
 ; ##########################################################
+
+
+; Load Program Config Data
+; This is data that is used and managed internally by the program
+; rather than settings that may be changed by the user
+IniRead, program_installed, %configFile%, Config, installed
+
+
+
 
 
 ; General settings
