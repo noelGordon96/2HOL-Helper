@@ -6,7 +6,7 @@
 ; SCRIPT NAME:	2HOL Helper
 ; DESCRIPTION:	Create hotkeys and other functions for TwoHoursOneLife
 ; VERSION:		1.8.30.23
-; AUTHOR:		Noel Gordon (veggieman1996@gmail.com)
+; AUTHOR:		Noel Gordon (noelGordon96 on GitHub)
 
 
 ;###########################################################
@@ -54,28 +54,41 @@
 
 #SingleInstance, force
 SetWorkingDir %A_ScriptDir%
-Menu, Tray, Icon , 2hol_icon.ico
+
+
+;###########################################################
+;	GLOBAL CONFIG AND LOCATION VARIABLES
+;###########################################################
+
+
+;DEBUG := true	; USED FOR TESTING WHEN DEVELOPING
+configFile := "config.ini"
+settingsFile := "settings.ini"
+settingsEditorProgram := "settings_editor.ahk"
+;helpFile := "help.txt"
+
+imagesFolder := A_ScriptDir . "\images"
+soundsFolder := A_ScriptDir . "\sounds"
 
 
 ;###########################################################
 ;	SCRIPT SYSTEM TRAY MENU CONTROL
 ;###########################################################
 
+iconFilePath := imagesFolder . "\2hol_icon.ico"
+Menu, Tray, Icon , %iconFilePath%
+
 
 ; add setting item to script's tray menu
 Menu, Tray, NoStandard
-Menu, Tray, Add, Settings, SettingsWindow_menuHandle
-Menu, Tray, Add, Exit, QuitNow
+Menu, Tray, Add, Settings, DisplaySettings_menuHandle
+Menu, Tray, Add, Exit, ExitScript_menuHandle
 
 
 ;###########################################################
-;	GLOBAL VARIABLES READING IN FILE DATA
+;	OTHER GLOBAL VARIABLES
 ;###########################################################
 
-DEBUG := true	; USED FOR TESTING WHEN DEVELOPING
-configFile := "config.ini"
-settingsFile := "settings.ini"
-helpFile := "help.txt"
 
 chatActive := false
 timerActive := false
@@ -89,10 +102,7 @@ timerActive := false
 ; Load Program Config Data
 ; This is data that is used and managed internally by the program
 ; rather than settings that may be changed by the user
-IniRead, program_installed, %configFile%, Config, installed
-
-
-
+;IniRead, program_installed, %configFile%, Config, installed
 
 
 ; General settings
@@ -138,7 +148,7 @@ if Not(WinExist("OneLife")){
 
 
 
-; Exit script once OneLife window is closed
+; Exit script once OneLife game window is closed
 while (true){
 	if Not(WinExist("OneLife")){
 		timerActive := false
@@ -229,7 +239,8 @@ if not(chatActive){
 	; play sound tones if necesary
 	if ((sound_enabled == "true") and (timerActive)){
 		SetCurrentProcessVolume(sound_volume)
-		SoundPlay, %sound_file%, WAIT
+		soundFilePath := soundsFolder . "\" . sound_file
+		SoundPlay, %soundFilePath%, WAIT
 	}
 	
 	timerActive := false
@@ -240,7 +251,7 @@ Return
 
 
 
-
+; Cancel the timer
 ~C::
 if not(chatActive){
 	timerActive := false
@@ -273,13 +284,7 @@ Return
 
 
 
-
-
-
 #IfWinActive
-
-
-
 
 
 
@@ -289,70 +294,12 @@ Return
 ;###########################################################
 
 
-SettingsWindow_menuHandle:
-
-
-
-
-
-Gui, Settings:Font, s12 bold underline, Veranda
-Gui, Settings:Add, Text, center x20 y5, Timer Position
-
-Gui, Settings:Font, s9 normal, Verdana
-Gui, Settings:Add, Text, x20 w150 section, X:
-Gui, Settings:Add, Edit, xs100 ys-4 w100 vtimerX_edit, %timer_x%
-
-Gui, Settings:Add, Text, x20 w150 section, Y:
-Gui, Settings:Add, Edit, xs100 ys-4 w100 vtimerY_edit, %timer_y%
-
-
-
-
-
-
-Gui, Settings:Font, s12 bold underline, Veranda
-Gui, Settings:Add, Text, center x20, Colors
-
-Gui, Settings:Font, s9 normal, Verdana
-Gui, Settings:Add, Text, x20 w150 section, Timer Color:
-Gui, Settings:Add, Edit, xs100 ys-4 w100, %timer_color%
-
-Gui, Settings:Add, Text, x20 w150 section, Timer Alpha:
-Gui, Settings:Add, Edit, xs100 ys-4 w100, %timer_alpha%
-
-Gui, Settings:Add, Text, x20 w150 section, Back Color:
-Gui, Settings:Add, Edit, xs100 ys-4 w100, %timer_back_color%
-
-
-
-
-Gui, Settings:Add, Button, x20 w80 section gSettingsWindowApply_buttonHandle, Apply
-Gui, Settings:Add, Button, Default xs100 ys0 w80 gSettingsWindowOK_buttonHandle, OK
-
-Gui, Settings:Show, xCenter yCenter, Script Settings
-
+DisplaySettings_menuHandle:
+Run, "%settingsEditorProgram%" "%A_ScriptName%"
 Return
 
 
-SettingsGuiClose:
-SettingsWindowOK_buttonHandle:
-Gui, Settings:Hide
-Gui, Settings:Destroy
-Return
-
-
-
-SettingsWindowApply_buttonHandle:
-; Code here to apply window settings to correct variables and save to settings file
-Return
-
-
-;###########################################################
-;	OTHER MISC SUBROUTINE LABELS (NEED HOTKEYS ABOVE TO STOP FLOW)
-;###########################################################
-
-
-QuitNow:
+ExitScript_menuHandle:
 ExitApp
 Return
 
