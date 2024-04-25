@@ -18,6 +18,7 @@ Menu, Tray, NoIcon
 callingScriptName = %1%
 
 settingsFile := "settings.ini"
+configFile := "config.ini"
 ; variables here
 
 
@@ -67,6 +68,8 @@ btn_ok_w := 90
 
 ; Create settings GUI
 ; ----------------------------------------------------------
+Gui, Settings:+AlwaysOnTop
+
 ; Settings Header: Section A
 Gui, Settings:Font, s11 bold underline, Veranda
 Gui, Settings:Add, Text, center x20, Sound
@@ -110,6 +113,8 @@ Gui, Settings:Show, xCenter yCenter, Script Settings
 
 WinWait, Script Settings
 GoSub, RefreshGuiValues
+GoSub, CreateTimerDisplay
+
 
 
 ;###########################################################
@@ -125,6 +130,34 @@ Return
 #IfWinActive
 
 
+
+; ##########################################################
+;	TIMER GUI CREATION AND REFRESH LABEL SUBROUTINES (NEED HOTKEYS ABOVE TO STOP FLOW)
+; ##########################################################
+
+
+; Draws the timer display
+CreateTimerDisplay:
+; Pull nesesary parameters to draw timer
+IniRead, timer_x, %settingsFile%, Position, timer_x
+IniRead, timer_y, %settingsFile%, Position, timer_y
+IniRead, timer_color, %settingsFile%, Color, timer_color
+IniRead, timer_back_color, %settingsFile%, Color, timer_back_color
+IniRead, timer_alpha, %settingsFile%, Color, timer_alpha
+
+; create gui window to display timer
+;timer_back_color := "00FF00"  ; Can be any RGB color (it will be made transparent below).
+Gui, Timer:+LastFound +AlwaysOnTop -Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
+Gui, Timer:Color, %timer_back_color%
+Gui, Timer:Font, s28 c%timer_color% bold, Courier New ; Set a large font size (32-point).
+Gui, Timer:Add, Text, Right, H:MM:SS  ; H:MM:SS serves to auto-size the window.
+; Make all pixels of this color transparent and make the text itself translucent (150):
+WinSet, TransColor, %timer_back_color% %timer_alpha%
+Gui, Timer:Show, x%timer_x% y%timer_y% NoActivate, Timer Window ; NoActivate avoids deactivating the currently active window.
+Return
+
+
+
 ;###########################################################
 ;	MANUAL TIMER MOVING BUTTON HANDLE(NEED HOTKEYS ABOVE TO STOP FLOW)
 ;###########################################################
@@ -132,20 +165,52 @@ Return
 
 MoveTimer_btnHandle:
 
-timer_x := setting_B1_value
-timer_y := setting_B2_value
+if (!timerBorder){
+	
+	;Read in caption (window titlebar and border) offset values from config file
+	IniRead, caption_offset_top, %configFile%, Position, caption_offset_top
+	IniRead, caption_offset_left, %configFile%, Position, caption_offset_left
+	
+	;Get position of window with caption offset
+	offset_pos_x := timer_x - caption_offset_left
+	offset_pos_y := timer_y - caption_offset_top
+	
+	;Set window to visible and correct position
+	Gui, Timer:+LastFound +Caption
+	WinMove, Timer Window,, %offset_pos_x%, %offset_pos_y%
+	WinSet, TransColor, Off
+	WinActivate, Timer Window
+	timerBorder := true
 
-; create gui window to display timer
-timer_back_color := "00FF00"  ; Can be any RGB color (it will be made transparent below).
-Gui, Timer:+LastFound +AlwaysOnTop ;-Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
-Gui, Timer:Color, %timer_back_color%
-Gui, Timer:Font, s28 c%timer_color% bold, Courier New ; Set a large font size (32-point).
-Gui, Timer:Add, Text, vTimerText Right, H:MM:SS  ; H:MM:SS serves to auto-size the window.
-; Make all pixels of this color transparent and make the text itself translucent (150):
-WinSet, TransColor, %timer_back_color% %timer_alpha%
-Gui, Timer:Show, x%timer_x% y%timer_y% NoActivate  ; NoActivate avoids deactivating the currently active window.
+}
+else {
+
+	Gui, Timer:+LastFound -Caption
+	WinSet, TransColor, %timer_back_color% %timer_alpha%
+	WinMove, Timer Window,, %timer_x%, %timer_y%
+	timerBorder := false
+
+}
+Return
+
+
+
+SaveTimerPosition_clsHandle:
+
+; calculate normal (captionless) position of window
+Gui, Timer:+LastFound
+WinGetPos, win_x, win_y
+timer_x := win_x + caption_offset_left
+timer_y := win_y + caption_offset_top
+
+; write values to storage and refresh gui
+IniWrite, %timer_x%, %settingsFile%, Position, timer_x
+IniWrite, %timer_y%, %settingsFile%, Position, timer_y
+
+
 
 Return
+
 
 
 ;###########################################################
@@ -214,6 +279,11 @@ Return
 ; MAIN CLOSING PROCEDURES
 ; ##########################################################
 
+
+TimerGuiClose()
+{
+	GoSub, SaveTimerPosition_clsHandle
+}
 
 SettingsGuiClose()
 {
