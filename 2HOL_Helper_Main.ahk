@@ -58,7 +58,7 @@ SetTitleMatchMode, 2
 ;DEBUG := true	; USED FOR TESTING WHEN DEVELOPING
 configFile := "config.ini"
 settingsFile := "settings.ini"
-settingsEditorProgram := "settings_editor.ahk"
+settingsEditorProgram := "settings_editor.exe"
 ;helpFile := "help.txt"
 
 imagesFolder := A_ScriptDir . "\images"

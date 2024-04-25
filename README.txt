@@ -31,6 +31,7 @@ Current User Functionality:
 	- ESC -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
 
 - Right click on the programs tray icon (2HOL icon) and use one of the following menu items:
+	- Pause ------ This will pause or unpause all hotkeys for the 2HOL Helper program
 	- Settings --- Can be used to edit some of the settings such as timer position or timer volume
 	- Exit ------- Close the background program manually (does not close your 2HOL game)
 
