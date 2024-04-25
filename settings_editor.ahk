@@ -112,8 +112,8 @@ Gui, Settings:Add, Button, x%btn_ok_x% ys0 w%btn_ok_w% gOK_btnHandle, OK / Resta
 Gui, Settings:Show, xCenter yCenter, Script Settings
 
 WinWait, Script Settings
-GoSub, RefreshGuiValues
-GoSub, CreateTimerDisplay
+refreshGuiValues()
+createTimerDisplay()
 
 
 
@@ -125,91 +125,9 @@ GoSub, CreateTimerDisplay
 ; Hotkey description (TEMP PREVENTS LABELS BELOW FROM EXECUTING)
 #IfWinActive, Script Settings
 Enter::
-Send {Tab}
+Send {Enter}{Tab}
 Return
 #IfWinActive
-
-
-
-; ##########################################################
-;	TIMER GUI CREATION AND REFRESH LABEL SUBROUTINES (NEED HOTKEYS ABOVE TO STOP FLOW)
-; ##########################################################
-
-
-; Draws the timer display
-CreateTimerDisplay:
-; Pull nesesary parameters to draw timer
-IniRead, timer_x, %settingsFile%, Position, timer_x
-IniRead, timer_y, %settingsFile%, Position, timer_y
-IniRead, timer_color, %settingsFile%, Color, timer_color
-IniRead, timer_back_color, %settingsFile%, Color, timer_back_color
-IniRead, timer_alpha, %settingsFile%, Color, timer_alpha
-
-; create gui window to display timer
-;timer_back_color := "00FF00"  ; Can be any RGB color (it will be made transparent below).
-Gui, Timer:+LastFound +AlwaysOnTop -Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
-Gui, Timer:Color, %timer_back_color%
-Gui, Timer:Font, s28 c%timer_color% bold, Courier New ; Set a large font size (32-point).
-Gui, Timer:Add, Text, Right, H:MM:SS  ; H:MM:SS serves to auto-size the window.
-; Make all pixels of this color transparent and make the text itself translucent (150):
-WinSet, TransColor, %timer_back_color% %timer_alpha%
-Gui, Timer:Show, x%timer_x% y%timer_y% NoActivate, Timer Window ; NoActivate avoids deactivating the currently active window.
-Return
-
-
-
-;###########################################################
-;	MANUAL TIMER MOVING BUTTON HANDLE(NEED HOTKEYS ABOVE TO STOP FLOW)
-;###########################################################
-
-
-MoveTimer_btnHandle:
-
-if (!timerBorder){
-	
-	;Read in caption (window titlebar and border) offset values from config file
-	IniRead, caption_offset_top, %configFile%, Position, caption_offset_top
-	IniRead, caption_offset_left, %configFile%, Position, caption_offset_left
-	
-	;Get position of window with caption offset
-	offset_pos_x := timer_x - caption_offset_left
-	offset_pos_y := timer_y - caption_offset_top
-	
-	;Set window to visible and correct position
-	Gui, Timer:+LastFound +Caption
-	WinMove, Timer Window,, %offset_pos_x%, %offset_pos_y%
-	WinSet, TransColor, Off
-	WinActivate, Timer Window
-	timerBorder := true
-
-}
-else {
-
-	Gui, Timer:+LastFound -Caption
-	WinSet, TransColor, %timer_back_color% %timer_alpha%
-	WinMove, Timer Window,, %timer_x%, %timer_y%
-	timerBorder := false
-
-}
-Return
-
-
-
-SaveTimerPosition_clsHandle:
-
-; calculate normal (captionless) position of window
-Gui, Timer:+LastFound
-WinGetPos, win_x, win_y
-timer_x := win_x + caption_offset_left
-timer_y := win_y + caption_offset_top
-
-; write values to storage and refresh gui
-IniWrite, %timer_x%, %settingsFile%, Position, timer_x
-IniWrite, %timer_y%, %settingsFile%, Position, timer_y
-
-
-
-Return
 
 
 
@@ -218,42 +136,21 @@ Return
 ;###########################################################
 
 
-Refresh_btnHandle:
-RefreshGuiValues:
 
-; Full settings from local INI file
-IniRead, setting_A1_value, %settingsFile%, %setting_secA_iniName%, %setting_A1_iniKey%, not_found
-IniRead, setting_A2_value, %settingsFile%, %setting_secA_iniName%, %setting_A2_iniKey%, not_found
-IniRead, setting_A3_value, %settingsFile%, %setting_secA_iniName%, %setting_A3_iniKey%, not_found
-
-IniRead, setting_B1_value, %settingsFile%, %setting_secB_iniName%, %setting_B1_iniKey%, not_found
-IniRead, setting_B2_value, %settingsFile%, %setting_secB_iniName%, %setting_B2_iniKey%, not_found
-
-
-; Set GUI values to match file read in values
-ControlSetText, %setting_A1_edit%, %setting_A1_value%
-ControlSetText, %setting_A2_edit%, %setting_A2_value%
-ControlSetText, %setting_A3_edit%, %setting_A3_value%
-
-ControlSetText, %setting_B1_edit%, %setting_B1_value%
-ControlSetText, %setting_B2_edit%, %setting_B2_value%
-
+MoveTimer_btnHandle:
+Gui, Settings:+LastFound
+Control, Disable,, Button1
+toggleTimerWindowBorder()
 Return
 
 
+Refresh_btnHandle:
+refreshGuiValues()
+Return
+
 
 Apply_btnHandle:
-
-Gui, Submit, NoHide
-
-IniWrite, %setting_A1_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A1_iniKey%
-IniWrite, %setting_A2_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A2_iniKey%
-IniWrite, %setting_A3_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A3_iniKey%
-
-IniWrite, %setting_B1_edit%, %settingsFile%, %setting_secB_iniName%, %setting_B1_iniKey%
-IniWrite, %setting_B2_edit%, %settingsFile%, %setting_secB_iniName%, %setting_B2_iniKey%
-
-
+writeSettingToFile()
 Return
 
 
@@ -267,12 +164,162 @@ Return
 
 
 
+
 ;###########################################################
-;	FUNCTIONS
+;	MAIN SETTINGS WINDOW MANAGEMENT FUNCTIONS
 ;###########################################################
 
 
-; functions here
+
+; Read in necesary settings from the settings file and write them the GUI fields
+refreshGuiValues(){
+
+	global settingsFile
+	
+	global setting_secA_iniName
+	global setting_A1_iniKey
+	global setting_A2_iniKey
+	global setting_A3_iniKey
+
+	global setting_secB_iniName
+	global setting_B1_iniKey
+	global setting_B2_iniKey
+	
+	global setting_A1_edit
+	global setting_A2_edit
+	global setting_A3_edit
+	global setting_B1_edit
+	global setting_B2_edit
+
+	; Pull settings from local INI file
+	IniRead, setting_A1_value, %settingsFile%, %setting_secA_iniName%, %setting_A1_iniKey%, not_found
+	IniRead, setting_A2_value, %settingsFile%, %setting_secA_iniName%, %setting_A2_iniKey%, not_found
+	IniRead, setting_A3_value, %settingsFile%, %setting_secA_iniName%, %setting_A3_iniKey%, not_found
+	IniRead, setting_B1_value, %settingsFile%, %setting_secB_iniName%, %setting_B1_iniKey%, not_found
+	IniRead, setting_B2_value, %settingsFile%, %setting_secB_iniName%, %setting_B2_iniKey%, not_found
+
+	; Set GUI values to match file read in values
+	Gui, Settings:+LastFound
+	ControlSetText, %setting_A1_edit%, %setting_A1_value%
+	ControlSetText, %setting_A2_edit%, %setting_A2_value%
+	ControlSetText, %setting_A3_edit%, %setting_A3_value%
+	ControlSetText, %setting_B1_edit%, %setting_B1_value%
+	ControlSetText, %setting_B2_edit%, %setting_B2_value%
+}
+
+
+
+writeSettingToFile(){
+
+	; assume-global mode
+	global
+
+	; submit GUI values to variables
+	Gui, Settings:Submit, NoHide
+
+	; write variables to settings file
+	IniWrite, %setting_A1_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A1_iniKey%
+	IniWrite, %setting_A2_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A2_iniKey%
+	IniWrite, %setting_A3_edit%, %settingsFile%, %setting_secA_iniName%, %setting_A3_iniKey%
+	IniWrite, %setting_B1_edit%, %settingsFile%, %setting_secB_iniName%, %setting_B1_iniKey%
+	IniWrite, %setting_B2_edit%, %settingsFile%, %setting_secB_iniName%, %setting_B2_iniKey%
+}
+
+
+
+;###########################################################
+;	TIMER WINDOW MANAGEMENT FUNCTIONS
+;###########################################################
+
+
+
+; Draws the timer display
+createTimerDisplay(){
+	
+	global settingsFile
+	global timerBorder := false
+	
+	; Pull nesesary parameters to draw timer
+	IniRead, timer_x, %settingsFile%, Position, timer_x
+	IniRead, timer_y, %settingsFile%, Position, timer_y
+	IniRead, timer_color, %settingsFile%, Color, timer_color
+	IniRead, timer_back_color, %settingsFile%, Color, timer_back_color
+	IniRead, timer_alpha, %settingsFile%, Color, timer_alpha
+
+	; create gui window to display timer
+	;timer_back_color := "00FF00"  ; Can be any RGB color (it will be made transparent below).
+	Gui, Timer:+LastFound +AlwaysOnTop -Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
+	Gui, Timer:Color, %timer_back_color%
+	Gui, Timer:Font, s28 c%timer_color% bold, Courier New ; Set a large font size (32-point).
+	Gui, Timer:Add, Text, Right, H:MM:SS  ; H:MM:SS serves to auto-size the window.
+	; Make all pixels of this color transparent and make the text itself translucent (150):
+	WinSet, TransColor, %timer_back_color% %timer_alpha%
+	Gui, Timer:Show, x%timer_x% y%timer_y% NoActivate, Timer Window ; NoActivate avoids deactivating the currently active window.
+	
+	; Enable move timer window button
+	Gui, Settings:+LastFound
+	Control, Enable,, Button1
+}
+
+
+
+; Save the timer windows current position to settings file
+; (Assumes the timer window has border and accounts for this in the position saved)
+saveTimerPosition(){
+
+	global settingsFile
+	global configFile
+
+	;Read in caption (window titlebar and border) offset values from config file
+	IniRead, caption_offset_top, %configFile%, Position, caption_offset_top
+	IniRead, caption_offset_left, %configFile%, Position, caption_offset_left
+
+	; calculate normal (captionless) position of window
+	Gui, Timer:+LastFound
+	WinGetPos, win_x, win_y
+	timer_x := win_x + caption_offset_left
+	timer_y := win_y + caption_offset_top
+
+	; write values to storage and refresh gui
+	IniWrite, %timer_x%, %settingsFile%, Position, timer_x
+	IniWrite, %timer_y%, %settingsFile%, Position, timer_y
+}
+
+
+toggleTimerWindowBorder(){
+	
+	global timerBorder
+	global settingsFile
+	global configFile
+	
+	if (!timerBorder){
+		
+		;Read in caption (window titlebar and border) offset values from config file
+		IniRead, caption_offset_top, %configFile%, Position, caption_offset_top
+		IniRead, caption_offset_left, %configFile%, Position, caption_offset_left
+		IniRead, timer_x, %settingsFile%, Position, timer_x
+		IniRead, timer_y, %settingsFile%, Position, timer_y
+		
+		;Get position of window with caption offset
+		offset_pos_x := timer_x - caption_offset_left
+		offset_pos_y := timer_y - caption_offset_top
+		
+		;Set window to visible and correct position
+		Gui, Timer:+LastFound +Caption
+		WinMove, Timer Window,, %offset_pos_x%, %offset_pos_y%
+		WinSet, TransColor, Off
+		WinActivate, Timer Window
+		timerBorder := true
+	}
+	else {
+
+		Gui, Timer:+LastFound -Caption
+		WinSet, TransColor, %timer_back_color% %timer_alpha%
+		WinMove, Timer Window,, %timer_x%, %timer_y%
+		timerBorder := false
+	}
+}
+
 
 
 ; ##########################################################
@@ -282,7 +329,10 @@ Return
 
 TimerGuiClose()
 {
-	GoSub, SaveTimerPosition_clsHandle
+	saveTimerPosition()
+	Gui, Timer:Destroy
+	refreshGuiValues()
+	createTimerDisplay()
 }
 
 SettingsGuiClose()
