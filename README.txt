@@ -26,7 +26,8 @@ Current User Functionality:
 
 - While in game the following hotkeys are active:
 	- T ---------- This will set a timer for a given number of minutes
-	- V ---------- This will take you to the online TwoTech crafting guide
+	- C ---------- Cancel any active timers
+	- G ---------- This will take you to the online TwoTech crafting guide
 	- ESC -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
 
 - Right click on the programs tray icon (2HOL icon) and use one of the following menu items:

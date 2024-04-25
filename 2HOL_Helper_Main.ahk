@@ -75,6 +75,7 @@ Menu, Tray, Icon , %iconFilePath%
 
 ; add setting item to script's tray menu
 Menu, Tray, NoStandard
+Menu, Tray, Add, Pause, PauseScript_menuHandle
 Menu, Tray, Add, Settings, DisplaySettings_menuHandle
 Menu, Tray, Add, Exit, ExitScript_menuHandle
 
@@ -279,7 +280,7 @@ Return
 
 
 
-V::openTwoTechGuide_hotkey()
+~G::openTwoTechGuide_hotkey()
 openTwoTechGuide_hotkey(){
 	
 	SetTitleMatchMode, 2
@@ -312,6 +313,13 @@ exitCraftingGuide(){
 ;###########################################################
 
 
+
+PauseScript_menuHandle:
+toggleSuspendHotkeys()
+Return
+
+
+
 DisplaySettings_menuHandle:
 Run, "%settingsEditorProgram%" "%A_ScriptName%"
 Return
@@ -325,6 +333,32 @@ Return
 ; ##########################################################
 ; MISC FUNCTIONS
 ; ##########################################################
+
+
+
+toggleSuspendHotkeys(){
+
+	global imagesFolder
+	global iconFilePath
+
+	if (A_IsSuspended){
+		
+		Suspend, Off
+		Menu, Tray, Uncheck, Pause
+		Menu, Tray, Icon , %iconFilePath%
+	
+	}
+	else {
+		
+		iconFilePath_grey := imagesFolder . "\2hol_icon_grey.ico"
+		Menu, Tray, Icon , %iconFilePath_grey%,, 1
+		Menu, Tray, Check, Pause
+		Suspend, On
+	
+	}
+
+}
+
 
 
 
