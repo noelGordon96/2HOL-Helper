@@ -15,22 +15,15 @@
 
 ; IMPROVEMENT maybe try to solve full-screen limitation
 
-; IMPROVEMENT migrate settings window labels to separate editor program
-
-; FEATURE small ding countdown at very end of timer
-
 ; FEATURE hotkey (maybe V) to toggle between 2HOL and TwoTech)
 
 ; FEATURE enable multiple timers to go at once
 ; FEATURE settings.ini customization multiple timer vertical offset
 
-; FEATURE Settings window to edit without editing files
-
-; FEATURE Allow dragging timer around while in settings
-
 ; BUG FIX make input box cancel button functional
 ; BUG FIX typing in the main menu spawn seed field can activate hotkeys
 ; BUG FIX script will not exit until timer is finished (timer can't be canceled after window closed)
+; BUG FIX hotkeys trigger inside 2HOL menu screen
 
 
 ;###########################################################
@@ -54,6 +47,7 @@
 
 #SingleInstance, force
 SetWorkingDir %A_ScriptDir%
+SetTitleMatchMode, 2
 
 
 ;###########################################################
@@ -99,7 +93,7 @@ timerActive := false
 ; ##########################################################
 
 
-; Load Program Config Data
+; Load in data from Config file
 ; This is data that is used and managed internally by the program
 ; rather than settings that may be changed by the user
 ;IniRead, program_installed, %configFile%, Config, installed
@@ -284,8 +278,32 @@ Return
 
 
 
-#IfWinActive
 
+V::openTwoTechGuide_hotkey()
+openTwoTechGuide_hotkey(){
+	
+	SetTitleMatchMode, 2
+	if WinExist("twotech"){
+		WinActivate, twotech
+	}
+	else {
+		twoTechPath := A_ScriptDir . "\TwoTech_Crafting_Guide.url"
+		Run, %twoTechPath%
+	}
+
+}
+
+
+
+#IfWinActive, twotech
+
+ESC::exitCraftingGuide()
+exitCraftingGuide(){
+	WinMinimize, twotech
+	WinActivate, OneLife
+}
+
+#IfWinActive
 
 
 

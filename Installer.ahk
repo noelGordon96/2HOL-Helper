@@ -1,7 +1,7 @@
 ; Initial settings
 #SingleInstance, force
 SetWorkingDir %A_ScriptDir%
-Menu, Tray, Icon , 2hol_icon.ico
+Menu, Tray, Icon , images\2hol_icon.ico
 
 ; Prompt user for game location
 FileSelectFolder, gameFolderPath,,, Please select your 2HOL game folder (the folder that contains your "OneLife.exe" file.)

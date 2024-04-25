@@ -20,6 +20,18 @@ Uninstallation:
 
 
 
+Current User Functionality:
+
+- Opening the 2HOL Helper program will automatically open your 2HOL game (2HOL Helper will run in the background until you close 2HOL)
+
+- While in game the following hotkeys are active:
+	- T ---------- This will set a timer for a given number of minutes
+	- V ---------- This will take you to the online TwoTech crafting guide
+	- ESC -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
+
+- Right click on the programs tray icon (2HOL icon) and use one of the following menu items:
+	- Settings --- Can be used to edit some of the settings such as timer position or timer volume
+	- Exit ------- Close the background program manually (does not close your 2HOL game)
 
 
 
