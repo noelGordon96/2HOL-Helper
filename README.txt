@@ -10,7 +10,7 @@ Installation:
 - Double click the "Installer.exe" file and navigate to your 2HOL game folder
 	* (Where this is on your system will depend on where it was placed when 2HOL was first installed, it is the folder that contains your "OneLife.exe" file. The folder name should look something like "2HOL_v220515164250" unless the name was changed manually when it was installed.)
 	* This installer simply will create a shortcut to your 2HOL game so that it can open your game for you and run in the background.
-- You can then decide if you would like a desktop or start menu shortcut to the to 2HOL Helper
+- You can then decide if you would like a desktop or start menu shortcut to the to 2HOL Helper (Not Implemented Yet)
 
 
 
