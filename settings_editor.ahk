@@ -94,7 +94,7 @@ Gui, Settings:Add, Text, center x20, Timer Position
 ; Settings: Section B
 Gui, Settings:Font, s9 normal, Verdana
 
-Gui, Settings:Add, Button, x130 w130 gMoveTimer_btnHandle section, Show/Move Timer
+Gui, Settings:Add, Button, x130 w150 gMoveTimer_btnHandle section, Move Timer Manually
 
 Gui, Settings:Add, Text, x20 w%col_1_w% section, X:
 Gui, Settings:Add, Edit, xs%col_2_x% ys-4 w%col_2_w% vSetting_B1_edit,
@@ -122,10 +122,9 @@ createTimerDisplay()
 ;###########################################################
 
 
-; Hotkey description (TEMP PREVENTS LABELS BELOW FROM EXECUTING)
+; BLANK HOTKEY (PREVENTS LABELS BELOW FROM EXECUTING)
 #IfWinActive, Script Settings
-Enter::
-Send {Enter}{Tab}
+~Enter::
 Return
 #IfWinActive
 
@@ -151,6 +150,7 @@ Return
 
 Apply_btnHandle:
 writeSettingToFile()
+updateTimerPosition()
 Return
 
 
@@ -284,6 +284,24 @@ saveTimerPosition(){
 	IniWrite, %timer_x%, %settingsFile%, Position, timer_x
 	IniWrite, %timer_y%, %settingsFile%, Position, timer_y
 }
+
+
+; Move the timer to the location it should be based on what is saved in the settings file
+updateTimerPosition(){
+	
+	global timerBorder
+	global settingsFile
+	
+	; Ensure the timer is displaying as it would in-game
+	if (!timerBorder){
+		
+		IniRead, timer_x, %settingsFile%, Position, timer_x
+		IniRead, timer_y, %settingsFile%, Position, timer_y
+
+		WinMove, Timer Window,, %timer_x%, %timer_y%
+	}
+}
+
 
 
 toggleTimerWindowBorder(){
