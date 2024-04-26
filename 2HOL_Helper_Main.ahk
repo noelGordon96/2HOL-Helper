@@ -63,6 +63,7 @@ settingsEditorProgram := "settings_editor.exe"
 
 imagesFolder := A_ScriptDir . "\images"
 soundsFolder := A_ScriptDir . "\sounds"
+shortcutsFolder := A_ScriptDir . "\shortcuts"
 
 
 ;###########################################################
@@ -131,7 +132,8 @@ IniRead, flash_back_color, %settingsFile%, Color, flash_back_color
 
 
 if Not(WinExist("OneLife")){
-	Run, OneLife
+	oneLifeShortcutPath := shortcutsFolder . "\OneLife.lnk"
+	Run, %oneLifeShortcutPath%
 	WinWait, OneLife,, 60
 }
 
@@ -283,12 +285,14 @@ Return
 ~G::openTwoTechGuide_hotkey()
 openTwoTechGuide_hotkey(){
 	
+	global shortcutsFolder
+	
 	SetTitleMatchMode, 2
 	if WinExist("twotech"){
 		WinActivate, twotech
 	}
 	else {
-		twoTechPath := A_ScriptDir . "\TwoTech_Crafting_Guide.url"
+		twoTechPath := shortcutsFolder . "\TwoTech_Crafting_Guide.url"
 		Run, %twoTechPath%
 	}
 

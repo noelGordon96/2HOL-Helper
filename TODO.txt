@@ -1,0 +1,28 @@
+TODO ITEMS
+--------------------------------------------------------------------------------
+
+- Add following text to settings editor window when timer window has a border:
+"Click 'X' on the timer window to apply position"
+
+- Add closing message after "setup.exe" execution to show user setup has been complete
+
+- Have option to open settings after "setup.exe" is complete
+
+- Add options to create shortcuts to "setup.exe"
+
+
+
+
+POSSIBLE IMPROVEMENTS
+--------------------------------------------------------------------------------
+
+
+
+
+
+KNOWN BUGS
+--------------------------------------------------------------------------------
+
+- POSSIBLE BUG: Other hotkeys might be executed when typing in chat (need to check)
+
+

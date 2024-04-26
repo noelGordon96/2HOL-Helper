@@ -8,7 +8,8 @@ FileSelectFolder, gameFolderPath,,, Please select your 2HOL game folder (the fol
 
 ; Create shortcut to game file
 oneLifePath := gameFolderPath . "\OneLife.exe"
-FileCreateShortcut, %oneLifePath%, OneLife.lnk, %gameFolderPath%
+shortcutPath := A_ScriptDir . "\shortcuts\OneLife.lnk"
+FileCreateShortcut, %oneLifePath%, %shortcutPath%, %gameFolderPath%
 
 ; Write changes to Config file
 IniWrite, true, Config.ini, Config, installed

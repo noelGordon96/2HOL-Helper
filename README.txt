@@ -11,7 +11,8 @@ Installation:
 	* (Where this is on your system will depend on where it was placed when 2HOL was first installed, it is the folder that contains your "OneLife.exe" file. The folder name should look something like "2HOL_v220515164250" unless the name was changed manually when it was installed.)
 	* This installer simply will create a shortcut to your 2HOL game so that it can open your game for you and run in the background.
 - You can then decide if you would like a desktop or start menu shortcut to the to 2HOL Helper (Not Implemented Yet)
-
+- When you are ready to play 2HOL open the "2HOL_Helper_Main.exe" file.
+- Your first time opening, you may want to take a look at the program settings (see section below) to make sure the timer position and sound settings are to your liking.
 
 
 Uninstallation:
@@ -30,7 +31,7 @@ Current User Functionality:
 	- G ---------- This will take you to the online TwoTech crafting guide
 	- ESC -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
 
-- Right click on the programs tray icon (2HOL icon) and use one of the following menu items:
+- Right click on the 2HOL Helper tray icon (2HOL icon in the bottom right of the screen, you may have to click the ^ icon) and use one of the following menu items:
 	- Pause ------ This will pause or unpause all hotkeys for the 2HOL Helper program
 	- Settings --- Can be used to edit some of the settings such as timer position or timer volume
 	- Exit ------- Close the background program manually (does not close your 2HOL game)
