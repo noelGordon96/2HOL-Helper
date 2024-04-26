@@ -31,15 +31,15 @@ Example of when this might be useful... I have the bad habbit of forgetting abou
 ### Current User Functionality:
 
 **HOTKEYS:** While in game the following hotkeys are active:
-	- **T** ---------- This will set a timer for a given number of minutes
-	- **C** ---------- Cancel any active timers
-	- **G** ---------- This will take you to the online TwoTech crafting guide
-	- **ESC** -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
+- **T** ---------- This will set a timer for a given number of minutes
+- **C** ---------- Cancel any active timers
+- **G** ---------- This will take you to the online TwoTech crafting guide
+- **ESC** -------- Minimize the crafting guide and switch back to the game (Only works while in the guide)
 
 **MENU:** Right click on the 2HOL Helper tray icon (bottom right of the screen next to the clock, you may have to click the ^ icon to see it) and use one of the following menu items:
-	- **Pause** ------ This will pause or unpause all hotkeys for the 2HOL Helper program
-	- **Settings** --- Can be used to edit some of the settings such as timer position or timer volume
-	- **Exit** ------- Close the background program manually (does not close your 2HOL game)
+- **Pause** ------ This will pause or unpause all hotkeys for the 2HOL Helper program
+- **Settings** --- Can be used to edit some of the settings such as timer position or timer volume
+- **Exit** ------- Close the background program manually (does not close your 2HOL game)
 
 
 
