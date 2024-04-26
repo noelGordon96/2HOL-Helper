@@ -12,6 +12,8 @@ TODO ITEMS
 
 - Remove AHK file to separate scource folder
 
+- (In Setup.exe) Move 2HOL folder connection into shortcuts GUI for cleaner feel
+
 
 
 
