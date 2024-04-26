@@ -43,6 +43,8 @@ setting_A3_edit := "Edit3"
 setting_B1_edit := "Edit4"
 setting_B2_edit := "Edit5"
 
+userMessage_text := "Static8"
+
 
 ; Window layout spacing variables
 col_1_w := 200
@@ -102,10 +104,12 @@ Gui, Settings:Add, Edit, xs%col_2_x% ys-4 w%col_2_w% vSetting_B1_edit,
 Gui, Settings:Add, Text, x20 w%col_1_w% section, Y:
 Gui, Settings:Add, Edit, xs%col_2_x% ys-4 w%col_2_w% vSetting_B2_edit,
 
-Gui, Settings:Add, Text, x20 w%col_1_w% section,	; BLANK SPACE FOR SPACING
+Gui, Settings:Font, s9 cRed normal, Verdana
+Gui, Settings:Add, Text, x20 w320 section vUserMessage_text,
 
 ; ----------------------------------------------------------
 ; Add buttons to GUI and show GUI (and pull setting file values)
+Gui, Settings:Font, s9 normal, Verdana
 Gui, Settings:Add, Button, x%btn_refresh_x% w%btn_refresh_w% gRefresh_btnHandle section, Refresh
 Gui, Settings:Add, Button, x%btn_apply_x% ys0 w%btn_apply_w% gApply_btnHandle Default, Apply
 Gui, Settings:Add, Button, x%btn_ok_x% ys0 w%btn_ok_w% gOK_btnHandle, OK / Restart
@@ -139,6 +143,7 @@ Return
 MoveTimer_btnHandle:
 Gui, Settings:+LastFound
 Control, Disable,, Button1
+ControlSetText, %userMessage_text%, Click the 'X' on the "Timer Window" to apply position
 toggleTimerWindowBorder()
 Return
 
@@ -347,9 +352,12 @@ toggleTimerWindowBorder(){
 
 TimerGuiClose()
 {
+	global userMessage_text
+	
 	saveTimerPosition()
 	Gui, Timer:Destroy
 	refreshGuiValues()
+	ControlSetText, %userMessage_text%,
 	createTimerDisplay()
 }
 

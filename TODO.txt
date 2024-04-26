@@ -1,20 +1,15 @@
 TODO ITEMS
 -----------------------------------------------------------
 
-- Add following text to settings editor window when timer window has a border:
-"Click 'X' on the timer window to apply position"
-
-- Add closing message after "setup.exe" execution to show user setup has been complete
-
 - Have option to open settings after "setup.exe" is complete
-
-- Add options to create shortcuts to "setup.exe"
 
 - Remove AHK file to separate scource folder
 
 - (In Setup.exe) Move 2HOL folder connection into shortcuts GUI for cleaner feel
 
 - Add help.txt file and about section to menu
+
+- Make timer transparent when draging timer
 
 
 
