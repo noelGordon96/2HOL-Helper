@@ -92,7 +92,7 @@ if (checkCreateStartMenuShortcut == 1){
 }
 Gui, Shortcuts:Hide
 Gui, Shortcuts:Destroy
-MsgBox, Setup complete!`n`nWhen you want to play simply open the `"2HOL Helper.exe`" file. Enjoy :)
+MsgBox, Setup complete!`n`nWhen you want to play simply open the `"2HOL Helper.exe`" file. Enjoy :)`n`nYou may want to check out the settings to make the sure they work for you (particularly the timer position).
 ExitApp
 Return
 
