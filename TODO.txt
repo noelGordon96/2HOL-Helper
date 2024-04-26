@@ -1,5 +1,5 @@
 TODO ITEMS
---------------------------------------------------------------------------------
+-----------------------------------------------------------
 
 - Add following text to settings editor window when timer window has a border:
 "Click 'X' on the timer window to apply position"
@@ -10,19 +10,28 @@ TODO ITEMS
 
 - Add options to create shortcuts to "setup.exe"
 
+- Remove AHK file to separate scource folder
+
 
 
 
 POSSIBLE IMPROVEMENTS
---------------------------------------------------------------------------------
+-----------------------------------------------------------
 
+- FEATURE enable multiple timers to go at once
 
 
 
 
 KNOWN BUGS
---------------------------------------------------------------------------------
+-----------------------------------------------------------
 
 - POSSIBLE BUG: Other hotkeys might be executed when typing in chat (need to check)
 
+- BUG FIX typing in the main menu spawn seed field can activate hotkeys (current workaround: pause hotkeys)
 
+- BUG FIX try to solve full-screen limitation
+
+- BUG FIX make input box cancel button functional
+
+- BUG FIX script will not exit until timer is finished (also timer can't be canceled after window closed)

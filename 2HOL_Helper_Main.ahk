@@ -5,39 +5,8 @@
 
 ; SCRIPT NAME:	2HOL Helper
 ; DESCRIPTION:	Create hotkeys and other functions for TwoHoursOneLife
-; VERSION:		1.8.30.23
+; VERSION:		1.4.26.24
 ; AUTHOR:		Noel Gordon (noelGordon96 on GitHub)
-
-
-;###########################################################
-;	FUTURE TODOS
-;###########################################################
-
-; IMPROVEMENT maybe try to solve full-screen limitation
-
-; FEATURE hotkey (maybe V) to toggle between 2HOL and TwoTech)
-
-; FEATURE enable multiple timers to go at once
-; FEATURE settings.ini customization multiple timer vertical offset
-
-; BUG FIX make input box cancel button functional
-; BUG FIX typing in the main menu spawn seed field can activate hotkeys
-; BUG FIX script will not exit until timer is finished (timer can't be canceled after window closed)
-; BUG FIX hotkeys trigger inside 2HOL menu screen
-
-
-;###########################################################
-;	INSTALLATION UPDATE NOTES
-;###########################################################
-
-; Mandy's version: V1.8.23.23
-; V1.8.23.23  ---> VCurrent
-
-; - Added Hotkey to Cancel timer (only changed the *_Main.ahk script file)
-
-; - Added customizable "sound_volume=100" setting to setting.ini
-
-; - Only launches OneLife if OneLife window doesn't already exist
 
 
 ;###########################################################
