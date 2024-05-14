@@ -9,7 +9,7 @@ Example of when this might be useful... I have the bad habbit of forgetting abou
 
 ### Compatability:
 - Windows 11
-- Windown 10 (most likely)
+- Windows 10 (most likely)
 - Not sure about older Windows versions, Apple, or Linux, sorry :(
 
 
