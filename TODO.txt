@@ -22,15 +22,11 @@ POSSIBLE IMPROVEMENTS
 
 
 
-KNOWN BUGS
+FIX KNOWN BUGS
 -----------------------------------------------------------
-
-- POSSIBLE BUG: Other hotkeys might be executed when typing in chat (need to check)
 
 - BUG FIX typing in the main menu spawn seed field can activate hotkeys (current workaround: pause hotkeys)
 
-- BUG FIX try to solve full-screen limitation
-
-- BUG FIX make input box cancel button functional
+- BUG FIX try to solve full-screen limitation (timer not always displayed over a full screen game)
 
 - BUG FIX script will not exit until timer is finished (also timer can't be canceled after window closed)

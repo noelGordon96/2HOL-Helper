@@ -5,7 +5,7 @@
 
 ; SCRIPT NAME:	2HOL Helper
 ; DESCRIPTION:	Create hotkeys and other functions for TwoHoursOneLife
-; VERSION:		1.4.26.24
+; VERSION:		1.7.15.24
 ; AUTHOR:		Noel Gordon (noelGordon96 on GitHub)
 
 
@@ -67,7 +67,7 @@ timerActive := false
 ; Load in data from Config file
 ; This is data that is used and managed internally by the program
 ; rather than settings that may be changed by the user
-;IniRead, program_installed, %configFile%, Config, installed
+IniRead, program_installed, %configFile%, Config, installed
 
 
 ; General settings
@@ -93,6 +93,17 @@ IniRead, flash_color, %settingsFile%, Color, flash_color
 IniRead, flash_alpha, %settingsFile%, Color, flash_alpha
 IniRead, flash_back_color, %settingsFile%, Color, flash_back_color
 
+
+
+; ##########################################################
+; CHECK FOR CORRECT INSTALL
+; ##########################################################
+
+
+if (program_installed != "true"){
+	MsgBox, Program cannot be run until set up is performed. Use "setup.exe" or refer to the "README.md" for more install instructions.
+	ExitApp
+}
 
 
 ; ##########################################################
@@ -140,6 +151,11 @@ if not(chatActive){
 
 	; get limer length from user
 	InputBox, timerMins, 2HOL Timer, Timer Minutes,, 200, 120, %input_x%, %input_y%,, %input_timeout%, %input_default%
+	
+	; exit timer procedure if user pressed cancel in the input box
+	if (ErrorLevel){
+		Exit
+	}
 
 
 	; create gui window to display timer
@@ -253,18 +269,19 @@ Return
 
 ~G::openTwoTechGuide_hotkey()
 openTwoTechGuide_hotkey(){
-	
 	global shortcutsFolder
 	
-	SetTitleMatchMode, 2
-	if WinExist("twotech"){
-		WinActivate, twotech
+	if not(chatActive){
+		
+		SetTitleMatchMode, 2
+		if WinExist("twotech"){
+			WinActivate, twotech
+		}
+		else {
+			twoTechPath := shortcutsFolder . "\TwoTech_Crafting_Guide.url"
+			Run, %twoTechPath%
+		}
 	}
-	else {
-		twoTechPath := shortcutsFolder . "\TwoTech_Crafting_Guide.url"
-		Run, %twoTechPath%
-	}
-
 }
 
 

@@ -28,6 +28,14 @@ oneLifePath := ""
 
 ; Pull 2HOL game location information
 FileSelectFolder, gameFolderPath,,, Please select your 2HOL game folder (the folder that contains your "OneLife.exe" file.)
+
+; Check if folder was properly selected
+if (ErrorLevel){
+	ExitApp
+}
+
+
+; Finish parsing OneLife destination
 oneLifePath := gameFolderPath . "\OneLife.exe"
 
 ; Create shortcut to game file
