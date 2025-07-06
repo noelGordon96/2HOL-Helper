@@ -1,15 +1,24 @@
 TODO ITEMS
 -----------------------------------------------------------
 
+- Convert entire project to AHK V2
+
+  - Add indicator for script chat status (better for future testing to improve chat tracking)
+    (I will need to rework the GUI creation for this (V2 will make this easier)
+    - If timer is running: Turn timer text red as indicator
+    - If timer is off: Use timer window to display "- chat -" in red (or something similar)
+ 
+  - Add option to trigger script hotkeys only with modifiers (this will avoid all chat tracking issues, for those who might frequently have issues)
+
 - Have option to open settings after "setup.exe" is complete
 
-- Remove AHK file to separate scource folder
+- Remove AHK file to separate source folder
 
 - (In Setup.exe) Move 2HOL folder connection into shortcuts GUI for cleaner feel
 
 - Add help.txt file and about section to menu
 
-- Make timer transparent when draging timer
+- Make timer transparent when dragging timer
 
 
 
@@ -25,8 +34,13 @@ POSSIBLE IMPROVEMENTS
 FIX KNOWN BUGS
 -----------------------------------------------------------
 
+- BUG FIX chat tracking is not always accurate particularly when entering and exiting the menu
+          (ex. exiting the menu with ENTER will cause the script to think chat window is active)
+          Current workaround in to just press ESC a couple times, this will ensure the script and game chat status are the same
+
 - BUG FIX typing in the main menu spawn seed field can activate hotkeys (current workaround: pause hotkeys)
 
 - BUG FIX try to solve full-screen limitation (timer not always displayed over a full screen game)
+  (borderless currently works best to avoid window being minimized when setting timer, still might not always work on all systems)
 
 - BUG FIX script will not exit until timer is finished (also timer can't be canceled after window closed)

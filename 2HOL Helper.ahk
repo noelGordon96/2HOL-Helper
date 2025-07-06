@@ -5,7 +5,7 @@
 
 ; SCRIPT NAME:	2HOL Helper
 ; DESCRIPTION:	Create hotkeys and other functions for TwoHoursOneLife
-; VERSION:		1.7.15.24
+; VERSION:		1.7.6.25
 ; AUTHOR:		Noel Gordon (noelGordon96 on GitHub)
 
 
@@ -78,6 +78,7 @@ IniRead, flash_enabled, %settingsFile%, General, flash_enabled
 IniRead, flash_start_time, %settingsFile%, General, flash_start_time
 IniRead, input_default, %settingsFile%, General, input_default
 IniRead, input_timeout, %settingsFile%, General, input_timeout
+IniRead, show_chat_status, %settingsFile%, General, show_chat_status
 
 ; Position settings
 IniRead, timer_x, %settingsFile%, Position, timer_x
@@ -258,10 +259,16 @@ Return
 
 
 
-
 ; Set chat status when pressing / key
 ~/::
 chatActive := true
+Return
+
+
+
+; Inactivate chat status when entering pause menu
+~ESC::
+chatActive := false
 Return
 
 
@@ -270,6 +277,7 @@ Return
 ~G::openTwoTechGuide_hotkey()
 openTwoTechGuide_hotkey(){
 	global shortcutsFolder
+	global chatActive
 	
 	if not(chatActive){
 		
